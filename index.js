@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));
+app.enable('trust proxy');
 
 app.use(express.static('public'));
 
@@ -13,7 +14,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/whoami', (req, res) => {
   var headers = {};
-  headers.ipaddress = req.connection.remoteAddress;
+  headers.ipaddress = req.ips;
   headers.user_agent = req.get('User-Agent');
   headers.language = req.get('Accept-Language');
   res.json(headers);
